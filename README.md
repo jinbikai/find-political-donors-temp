@@ -75,7 +75,7 @@ Two functions are defined as follows to check the number validity and date valid
 
 5. Data clean
 
-The entire record will be ignored if one of the following situation happens:
+The entire record will be ignored if one of the following situations happens:
 
     OTHER_ID is not NULL,
     CMTE_ID does not match the specific format, (e.g. 'C00177436')
@@ -83,6 +83,7 @@ The entire record will be ignored if one of the following situation happens:
 
 which can be done through one if command:
 
+    ID_temp = re.compile("C[0-9]{8}")
     if(other_ID or not ID_temp.match(ID) or not number_check(fields[14])): continue   # if ignored, go to the next iteration of the for loop.
 
 If the ZIP_CODE is valid, this record will be used for medianvals_by_zip.txt. However, it is still used in medianvals_by_date.txt if it is not valid. 
