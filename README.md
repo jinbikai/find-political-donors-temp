@@ -14,20 +14,6 @@ One for loop is used to get the data line by line and generate the values for ou
     
     output the medianvals_by_date.txt after sorting. 
 
-1. Data structure
-
-Two dictionaries (zip_dict, date_dict) are built to store the output data,  
-
-    zip_dict = {(ID, zip) : [num, amount, A, B]}
-    ID:     CMTE_ID of current record
-    zip:    ZIP_CODE of current record
-    num:    cumulated records number of this combination (ID, zip)
-    amount: cumulated transaction value of this combination (ID, zip)
-    A:      the heap contains the TRANSACTION_AMT less than the median
-    B:      the heap contains the TRANSACTION_AMT larger than the median
-
-date_dict has the same design as zip_dict.
-
 1. Modules
 
 Several modules are imported in this code:
@@ -53,7 +39,22 @@ While the data is streaming in line by line, the following five fields are picke
     TRANSACTION_AMT: amount of the transaction, which is field[14],
     OTHER_ID: a field that denotes whether contribution came from a person or an entity, which is field[15].
 
-3. Functions
+3. Data structure
+
+Two dictionaries (zip_dict, date_dict) are built to store the output data,  
+
+    zip_dict = {(ID, zip) : [num, amount, A, B]}
+    ID:     CMTE_ID of current record
+    zip:    ZIP_CODE of current record
+    num:    cumulated records number of this combination (ID, zip)
+    amount: cumulated transaction value of this combination (ID, zip)
+    A:      the heap contains the TRANSACTION_AMT less than the median
+    B:      the heap contains the TRANSACTION_AMT larger than the median
+
+date_dict has the same design as zip_dict.
+
+
+4. Functions
 
 Two functions are defined as follows to check the number validity and date validity:
 
@@ -72,7 +73,7 @@ Two functions are defined as follows to check the number validity and date valid
       except ValueError:
           return False
 
-4. Data clean
+5. Data clean
 
 The entire record will be ignored if one of the following situation happens:
 
@@ -92,7 +93,7 @@ If the TRANSACTION_DT is valid, this record will be used for medianvals_by_date.
 
     if(date_check(date_curr)):
 
-5. Calculating runnning median
+6. Calculating runnning median
 
 Two heaps A and B are generated in which A contains the TRANSACTION_AMT less than the median and B contains the TRANSACTION_AMT larger than the median. Two restrictions are used to build heaps:
 
@@ -115,6 +116,6 @@ After the insertion of each new data, the running median is computed:
 
 Above process can be performed with heapq module. 
 
-6. Output the sorted medianvals_by_date.txt through for loop
+7. Output the sorted medianvals_by_date.txt through for loop
 
     for line in sorted(date_dict, key=itemgetter(0,1)):
